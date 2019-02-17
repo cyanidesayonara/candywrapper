@@ -25,4 +25,7 @@
 /build/
 
 ### Maven ###
-/.mvn
+.mvn
+
+build
+node_modules
