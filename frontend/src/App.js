@@ -1,17 +1,23 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import logo from './logo.svg'
+import './App.css'
 import Header from './components/Header'
 
 class App extends Component {
-  state = {}
+  constructor(props) {
+    super(props)
+    this.state = {
+      candies: [],
+    }
+  }
 
   componentDidMount() {
+    document.title = 'Candy Wrapper'
     this.candy()
   }
 
   candy = () => {
-    fetch('api/candy')
+    fetch('api/candies')
       .then(response => response.text())
       .then(message => this.setState({ message: message }))
   }
@@ -26,4 +32,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default App

@@ -5,17 +5,19 @@ https://candywrapper.herokuapp.com
 ## Specs
 Backend: Spring Boot  
 Frontend: React
+Database: MongoDB
 
 ## Setup how-to
-git clone https://github.com/cyanidesayonara/candywrapper.git    
 install Node, Maven & Java  
-run command 'npm install' inside folder 'candywrapper/frontend'  
-run command 'mvn clean install' inside folder 'candywrapper'  
-run command 'java -jar target/candywrapper-{ version }.jar' inside folder 'candywrapper'  
+git clone https://github.com/cyanidesayonara/candywrapper.git    
+cd candywrapper
+mvn spring-boot:run
 
 ## Resources used  
 https://github.com/kantega/react-and-spring  
 http://frugalisminds.com/spring-boot/deploy-spring-boot-app-on-heroku/  
+https://javadeveloperzone.com/spring-boot/spring-boot-rest-service-with-mongodb-example/  
+https://stackoverflow.com/questions/28747909/how-to-disable-spring-data-mongodb-autoconfiguration-in-spring-boot  
 
 ## Deploy to heroku
 mvn install package  

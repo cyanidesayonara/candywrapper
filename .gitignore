@@ -29,3 +29,5 @@
 
 build
 node_modules
+.vscode
+.settings
