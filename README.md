@@ -20,5 +20,7 @@ https://javadeveloperzone.com/spring-boot/spring-boot-rest-service-with-mongodb-
 https://stackoverflow.com/questions/28747909/how-to-disable-spring-data-mongodb-autoconfiguration-in-spring-boot  
 
 ## Deploy to heroku
+install heroku cli
+heroku plugins:install heroku-cli-deploy
 mvn install package  
 heroku deploy:jar target/candywrapper-{ version }.jar  
