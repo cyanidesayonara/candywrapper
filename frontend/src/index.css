@@ -13,9 +13,69 @@ code {
     monospace;
 }
 
-#header {
-  background: red;
-  color: white;
-  padding: 5px;  
-  box-shadow: rgba(0,0,0,.5) 2px 0 5px;
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
 }
+
+#root {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 600px;
+}
+
+#main {
+  padding: 120px 20px 20px;
+}
+
+#nav {
+  position: fixed;
+  width: 100%;
+  max-width: 600px;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  background: red;
+  box-shadow: rgba(0,0,0,.5) 0 0 5px;
+}
+#nav h1 {
+  margin: 10px 0;
+  text-align: center;
+}
+#nav ul {
+  display: flex;
+  list-style: none;
+  margin: 0 15px;
+  padding: 0;
+}
+#nav ul li {
+  flex: 1;
+  padding: 5px;
+}
+
+#products {
+  border: 2px dashed green;
+}
+
+.product {
+  padding: 10px;
+}
+
+.product:hover {
+  background: rgba(0,0,0,.2);
+}
+
+.product img {
+  float: left;
+  min-width: 100px;
+  max-width: 35%;
+  height: auto;
+  margin-right: 5px;
+}
+
+.product h1 {
+  margin: 5px 0;
+}
+
