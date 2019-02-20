@@ -2,22 +2,22 @@ package com.candywrapper.repository;
 
 import java.util.List;
 
-import com.candywrapper.model.Candy;
+import com.candywrapper.model.Product;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CandyRepository extends MongoRepository<Candy, String> {
+public interface ProductRepository extends MongoRepository<Product, String> {
 
     @Override
-    List<Candy> findAll();
+    List<Product> findAll();
 
-    @Query("{ 'candyName': ?0 }")
-    List<Candy> findCandyByName(String name);
+    @Query("{ 'productName': ?0 }")
+    List<Product> findProductByName(String name);
 
-    Candy findCandyById(String id);
+    Product findProductById(String id);
 
     @Override
     void deleteById(String id);

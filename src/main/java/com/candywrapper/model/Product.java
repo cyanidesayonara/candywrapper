@@ -3,8 +3,8 @@ package com.candywrapper.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "Candy")
-public class Candy {
+@Document(collection = "Product")
+public class Product {
 
     @Id
     private String id;
@@ -12,10 +12,10 @@ public class Candy {
     private String description;
 
 
-    public Candy() {
+    public Product() {
     }
 
-    public Candy(String id, String name, String description) {
+    public Product(String id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;

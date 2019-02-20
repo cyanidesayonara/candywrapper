@@ -2,31 +2,59 @@ import React, { Component } from 'react'
 import logo from './logo.svg'
 import './App.css'
 import Header from './components/Header'
+import ReactGA from 'react-ga'
 
 class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      candies: [],
+      products: [],
     }
   }
 
   componentDidMount() {
     document.title = 'Candy Wrapper'
-    this.candy()
+    this.fetchProducts()
+    this.initializeGA()
   }
 
-  candy = () => {
-    fetch('api/candies')
-      .then(response => response.text())
-      .then(message => this.setState({ message: message }))
+  fetchProducts = () => {
+    fetch('api/products')
+      .then(response => response.json())
+      .then(products => this.setState({ products: products }))
+  }
+
+  initializeGA = () => {
+    ReactGA.initialize('UA-120584024-5')
+    ReactGA.pageview('/')
   }
 
   render() {
+    const tableStyle = {
+      margin: '20px auto',
+      border: '1px solid black',
+    }
     return (
       <div className="App">
         <Header />
-        <h2>{ this.state.message }</h2>
+        <table style={ tableStyle }>
+          <thead>
+            <tr>
+              <td>id</td>
+              <td>name</td>
+              <td>description</td>
+            </tr>
+          </thead>
+          <tbody>
+            { this.state.products.map((product) =>
+              <tr key={ product.id }>
+                <td>{ product.id }</td>
+                <td>{ product.name }</td>
+                <td>{ product.description }</td>
+              </tr>
+            ) }
+          </tbody>
+        </table>
       </div>
     );
   }
