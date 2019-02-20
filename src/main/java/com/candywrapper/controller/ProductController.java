@@ -23,8 +23,13 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping("/api/products")
-    public List<Product> hello() {
-        return productService.findAll();
+    public List<Product> getAllProducts() {
+        return productService.getAllProducts();
+    }
+
+    @GetMapping("/api/products/{id}")
+    public Product getProductById(@PathVariable("id") String id) {
+        return productService.getProductById(id);
     }
 
     @PostMapping("/api/products")
@@ -38,7 +43,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/api/products/{id}")
-    public void delete(@PathVariable String id) {
+    public void delete(@PathVariable("id") String id) {
         productService.delete(id);
     }
     

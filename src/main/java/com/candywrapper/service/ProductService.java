@@ -5,7 +5,8 @@ import java.util.List;
 import com.candywrapper.model.Product;
 
 public interface ProductService {
-    List<Product> findAll();
+    List<Product> getAllProducts();
+    Product getProductById(String id);
     Product save(Product product);
     Product update(Product product);
     void delete(String id);

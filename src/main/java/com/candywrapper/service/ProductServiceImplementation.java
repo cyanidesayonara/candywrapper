@@ -16,10 +16,14 @@ public class ProductServiceImplementation implements ProductService {
     private ProductRepository productRepository;
 
     @Override
-    public List<Product> findAll() {
+    public List<Product> getAllProducts() {
         return productRepository.findAll();
     }
 
+    @Override
+    public Product getProductById(String id) {
+        return productRepository.findById(id).get();
+    }
     @Override
     public Product save(Product product) {
         return productRepository.save(product);
