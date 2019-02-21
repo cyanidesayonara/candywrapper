@@ -1,11 +1,21 @@
 import React from 'react';
 import Product from './Product'
+import AddNewProductForm from './AddNewProductForm'
 
-const Products = ({ products }) => {
+const Products = ({
+    products,
+    addNewProduct,
+    handleRemove
+  }) => {
   return (
     <div id='products'>
+      <AddNewProductForm addNewProduct={ addNewProduct } />
       { products.map((product) => 
-        <Product product={ product } />
+        <Product
+          key={ product.id }
+          product={ product }
+          handleRemove={ handleRemove }
+        />
       ) }
     </div>
   )

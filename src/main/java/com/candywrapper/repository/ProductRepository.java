@@ -17,6 +17,8 @@ public interface ProductRepository extends MongoRepository<Product, String> {
     @Query("{ 'productName': ?0 }")
     List<Product> findProductByName(String name);
 
+    List<Product> findProductByNameIgnoreCase(String name);
+
     Product findProductById(String id);
 
     @Override

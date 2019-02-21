@@ -51,6 +51,7 @@ code {
   padding: 0;
 }
 #nav ul li {
+  text-align: center;
   flex: 1;
   padding: 5px;
 }

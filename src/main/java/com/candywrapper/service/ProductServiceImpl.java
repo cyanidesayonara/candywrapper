@@ -10,20 +10,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ProductServiceImplementation implements ProductService {
+public class ProductServiceImpl implements ProductService {
     
     @Autowired
     private ProductRepository productRepository;
 
     @Override
-    public List<Product> getAllProducts() {
+    public List<Product> findAll() {
         return productRepository.findAll();
     }
 
     @Override
-    public Product getProductById(String id) {
+    public Product findById(String id) {
         return productRepository.findById(id).get();
     }
+
+    @Override
+    public boolean findProductByNameIgnoreCase(Product product) {
+        return !productRepository.findProductByNameIgnoreCase(product.getName()).isEmpty();
+    }
+
     @Override
     public Product save(Product product) {
         return productRepository.save(product);
@@ -36,9 +42,17 @@ public class ProductServiceImplementation implements ProductService {
 
     @Override
     public void delete(String id) {
-        Optional<Product> o = productRepository.findById(id);
-        if (o.isPresent()) {
-            productRepository.delete(o.get());
+        Optional<Product> product = productRepository.findById(id);
+        if (product.isPresent()) {
+            productRepository.delete(product.get());
         }
     }
+
+    @Override
+    public void deleteAllProducts() {
+        List<Product> products = productRepository.findAll();
+        for (Product product : products) {
+            productRepository.delete(product);
+        }
+    }    
 }

@@ -8,10 +8,10 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @ComponentScan
 @EnableMongoRepositories
 @SpringBootApplication
-public class SpringBootConfig {
+public class SpringBootRestApi {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SpringBootConfig.class, args);
+		SpringApplication.run(SpringBootRestApi.class, args);
 	}
 
 }

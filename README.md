@@ -20,6 +20,8 @@ https://github.com/kantega/react-and-spring
 http://frugalisminds.com/spring-boot/deploy-spring-boot-app-on-heroku/  
 https://javadeveloperzone.com/spring-boot/spring-boot-rest-service-with-mongodb-example/  
 https://stackoverflow.com/questions/28747909/how-to-disable-spring-data-mongodb-autoconfiguration-in-spring-boot  
+http://websystique.com/spring-boot/spring-boot-rest-api-example/  
+https://www.baeldung.com/intro-to-project-lombok  
 
 ## Deploy to heroku  
 install heroku cli  
