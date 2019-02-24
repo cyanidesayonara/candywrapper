@@ -53,7 +53,7 @@ public class ProductController {
     @PostMapping("/products/")
     public ResponseEntity<?> save(@RequestBody Product product) {
         logger.info("Creating Product : {}", product);
-        if (productService.findProductByNameIgnoreCase(product)) {
+        if (productService.findProductByNameIgnoreCase(product.getName())) {
             logger.error("A Product with name {} already exists", product.getName());
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
@@ -91,10 +91,10 @@ public class ProductController {
     }
 
     @DeleteMapping("/products/")
-    public ResponseEntity<?> deleteAllProducts() {
+    public ResponseEntity<?> deleteAll() {
         logger.info("Deleting all users");
 
-        productService.deleteAllProducts();
+        productService.deleteAll();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     

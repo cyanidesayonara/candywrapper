@@ -8,19 +8,19 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data @NoArgsConstructor
-@Document(collection = "Product")
-public class Product {
+@Document(collection = "User")
+public class User {
 
     @Id
     private String id;
 
     @Indexed(unique = true)
-    private String name;
-    private String description;
+    private String username;
+    private String password;
 
-    public Product(String id, String name, String description) {
+    public User(String id, String username, String password) {
         this.id = id;
-        this.name = name;
-        this.description = description;
-    }
+        this.username = username;
+        this.password = password;
+    }    
 }

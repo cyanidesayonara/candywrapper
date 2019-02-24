@@ -2,24 +2,24 @@ package com.candywrapper.repository;
 
 import java.util.List;
 
-import com.candywrapper.model.Product;
+import com.candywrapper.model.User;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ProductRepository extends MongoRepository<Product, String> {
+public interface UserRepository extends MongoRepository<User, String> {
 
     @Override
-    List<Product> findAll();
+    List<User> findAll();
 
-    @Query("{ 'name': ?0 }")
-    List<Product> findByName(String name);
+    @Query("{ 'username': ?0 }")
+    List<User> findByUsername(String name);
 
-    List<Product> findProductByNameIgnoreCase(String name);
+    List<User> findUserByUsernameIgnoreCase(String name);
 
-    Product findById(String id);
+    User findById(String id);
 
     @Override
     void deleteById(String id);
