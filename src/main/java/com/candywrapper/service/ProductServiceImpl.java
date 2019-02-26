@@ -26,8 +26,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public boolean findProductByNameIgnoreCase(Product product) {
-        return !productRepository.findProductByNameIgnoreCase(product.getName()).isEmpty();
+    public List<Product> findByName(String name) {
+        return productRepository.findByName(name);
+    }    
+
+    @Override
+    public boolean existsByName(String name) {
+        return productRepository.existsByName(name);
     }
 
     @Override
@@ -41,18 +46,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void delete(String id) {
-        Optional<Product> product = productRepository.findById(id);
-        if (product.isPresent()) {
-            productRepository.delete(product.get());
-        }
+    public void deleteById(String id) {
+        productRepository.deleteById(id);
     }
 
     @Override
-    public void deleteAllProducts() {
-        List<Product> products = productRepository.findAll();
-        for (Product product : products) {
-            productRepository.delete(product);
-        }
+    public void deleteAll() {
+        productRepository.deleteAll();
     }    
 }

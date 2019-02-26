@@ -7,9 +7,10 @@ import com.candywrapper.model.Product;
 public interface ProductService {
     List<Product> findAll();
     Product findById(String id);
-    boolean findProductByNameIgnoreCase(Product product);
+    List<Product> findByName(String name);
+    boolean existsByName(String name);
     Product save(Product product);
     Product update(Product product);
-    void delete(String id);
-    void deleteAllProducts();
+    void deleteById(String id);
+    void deleteAll();
 }

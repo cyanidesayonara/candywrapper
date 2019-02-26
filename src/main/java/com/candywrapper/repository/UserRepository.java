@@ -14,13 +14,18 @@ public interface UserRepository extends MongoRepository<User, String> {
     @Override
     List<User> findAll();
 
-    @Query("{ 'userName': ?0 }")
-    List<User> findUserByName(String name);
+    User findOneByUsername(String Username);
+    
+    @Query("{ 'userUsername': ?0 }")
+    List<User> findByUsername(String Username);
 
-    List<User> findUserByNameIgnoreCase(String name);
+    List<User> findByUsernameIgnoreCase(String username);
 
-    User findUserById(String id);
+    boolean existsByUsername(String username);
 
     @Override
     void deleteById(String id);
+
+    @Override
+    void deleteAll();
 }

@@ -22,6 +22,9 @@ https://javadeveloperzone.com/spring-boot/spring-boot-rest-service-with-mongodb-
 https://stackoverflow.com/questions/28747909/how-to-disable-spring-data-mongodb-autoconfiguration-in-spring-boot  
 http://websystique.com/spring-boot/spring-boot-rest-api-example/  
 https://www.baeldung.com/intro-to-project-lombok  
+https://dev.to/onlineinterview/user-account-loginregistration-feature-with-spring-boot--3fc3
+https://docs.spring.io/spring-security/site/docs/current/reference/html/jc.html
+https://stackoverflow.com/questions/52243774/consider-defining-a-bean-of-type-org-springframework-security-authentication-au
 
 ## Deploy to heroku  
 install heroku cli  

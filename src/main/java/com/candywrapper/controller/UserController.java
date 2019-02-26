@@ -1,15 +1,16 @@
 package com.candywrapper.controller;
 
 import com.candywrapper.model.User;
+import com.candywrapper.service.UserService;
+import com.candywrapper.service.SecurityService;
+import com.candywrapper.validator.UserValidator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import com.candywrapper.service.UserService;
-
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,6 +30,12 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private SecurityService securityService;
+
+    @Autowired
+    private UserValidator userValidator;
 
     @GetMapping("/users/")
     public ResponseEntity<List<User>> findAll() {
@@ -50,15 +57,44 @@ public class UserController {
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 
-    @PostMapping("/users/")
-    public ResponseEntity<?> save(@RequestBody User user) {
-        logger.info("Creating User : {}", user);
-        if (userService.findUserByNameIgnoreCase(user)) {
-            logger.error("A User with name {} already exists", user.getName());
+    @PostMapping("/users/register")
+    public ResponseEntity<?> register(@RequestBody User user, BindingResult bindingResult) {
+        logger.info("Registering User : {}", user);
+        
+        userValidator.validate(user, bindingResult);
+        
+        if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
+
+        userService.save(user);
+
+        securityService.autologin(user.getUsername(), user.getPasswordConfirm());
+
         User createdUser = userService.save(user);
         return new ResponseEntity<User>(createdUser, HttpStatus.OK);
+    }
+
+    @PostMapping("/users/login")
+    public ResponseEntity<?> login(@RequestBody User user, BindingResult bindingResult) {
+        logger.info("Logging in User : {}", user);
+
+        userValidator.validate(user, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+
+        securityService.autologin(user.getUsername(), user.getPasswordConfirm());
+
+        return new ResponseEntity<User>(user, HttpStatus.OK);
+    }
+
+    @PostMapping("/users/logout")
+    public ResponseEntity<?> logout(@RequestBody User user, BindingResult bindingResult) {
+        logger.info("Logging out User : {}", user);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/users/{id}")
@@ -72,29 +108,29 @@ public class UserController {
         }
 
         currentUser.setId(user.getId());
-        currentUser.setName(user.getName());
-        currentUser.setDescription(user.getDescription());
+        currentUser.setUsername(user.getUsername());
+        currentUser.setPassword(user.getPassword());
 
         User updatedUser = userService.update(user);
         return new ResponseEntity<User>(updatedUser, HttpStatus.OK);
     }
 
     @DeleteMapping("/users/{id}")
-    public ResponseEntity<?> delete(@PathVariable("id") String id) {
+    public ResponseEntity<?> deleteById(@PathVariable("id") String id) {
         logger.info("Fetching and deleting User with id {}", id);
 
         if (userService.findById(id) == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        userService.delete(id);
+        userService.deleteById(id);
         return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/users/")
-    public ResponseEntity<?> deleteAllUsers() {
+    public ResponseEntity<?> deleteAll() {
         logger.info("Deleting all users");
 
-        userService.deleteAllUsers();
+        userService.deleteAll();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     

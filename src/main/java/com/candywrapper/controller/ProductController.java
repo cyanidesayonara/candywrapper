@@ -53,7 +53,7 @@ public class ProductController {
     @PostMapping("/products/")
     public ResponseEntity<?> save(@RequestBody Product product) {
         logger.info("Creating Product : {}", product);
-        if (productService.findProductByNameIgnoreCase(product)) {
+        if (productService.existsByName(product.getName())) {
             logger.error("A Product with name {} already exists", product.getName());
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
@@ -80,21 +80,21 @@ public class ProductController {
     }
 
     @DeleteMapping("/products/{id}")
-    public ResponseEntity<?> delete(@PathVariable("id") String id) {
+    public ResponseEntity<?> deleteById(@PathVariable("id") String id) {
         logger.info("Fetching and deleting Product with id {}", id);
 
         if (productService.findById(id) == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        productService.delete(id);
+        productService.deleteById(id);
         return new ResponseEntity<Product>(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/products/")
-    public ResponseEntity<?> deleteAllProducts() {
+    public ResponseEntity<?> deleteAll() {
         logger.info("Deleting all users");
 
-        productService.deleteAllProducts();
+        productService.deleteAll();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     

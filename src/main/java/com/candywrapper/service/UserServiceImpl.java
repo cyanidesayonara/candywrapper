@@ -1,19 +1,28 @@
 package com.candywrapper.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.candywrapper.model.User;
+import com.candywrapper.repository.RoleRepository;
 import com.candywrapper.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.HashSet;
 
 @Service
 public class UserServiceImpl implements UserService {
     
     @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    
+    @Autowired
     private UserRepository userRepository;
+    
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Override
     public List<User> findAll() {
@@ -26,12 +35,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean findUserByNameIgnoreCase(User user) {
-        return !userRepository.findUserByNameIgnoreCase(user.getName()).isEmpty();
+    public List<User> findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public User findOneByUsername(String username) {
+        return userRepository.findOneByUsername(username);
+    }
+
+    @Override
+    public boolean existsByUsername(String username) {
+        return userRepository.existsByUsername(username);
     }
 
     @Override
     public User save(User user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setRoles(new HashSet<>(roleRepository.findAll()));        
         return userRepository.save(user);
     }
 
@@ -41,18 +62,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(String id) {
-        Optional<User> user = userRepository.findById(id);
-        if (user.isPresent()) {
-            userRepository.delete(user.get());
-        }
+    public void deleteById(String id) {
+        userRepository.deleteById(id);
     }
 
     @Override
-    public void deleteAllUsers() {
-        List<User> users = userRepository.findAll();
-        for (User user : users) {
-            userRepository.delete(user);
-        }
+    public void deleteAll() {
+        userRepository.deleteAll();
     }    
 }

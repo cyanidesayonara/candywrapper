@@ -7,9 +7,11 @@ import com.candywrapper.model.User;
 public interface UserService {
     List<User> findAll();
     User findById(String id);
-    boolean findUserByNameIgnoreCase(User user);
+    List<User> findByUsername(String username);
+    User findOneByUsername(String username);
+    boolean existsByUsername(String username);
     User save(User user);
     User update(User user);
-    void delete(String id);
-    void deleteAllUsers();
+    void deleteById(String id);
+    void deleteAll();
 }

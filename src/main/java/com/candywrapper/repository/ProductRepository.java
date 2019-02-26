@@ -15,12 +15,15 @@ public interface ProductRepository extends MongoRepository<Product, String> {
     List<Product> findAll();
 
     @Query("{ 'productName': ?0 }")
-    List<Product> findProductByName(String name);
+    List<Product> findByName(String name);
 
-    List<Product> findProductByNameIgnoreCase(String name);
+    List<Product> findByNameIgnoreCase(String name);
 
-    Product findProductById(String id);
+    boolean existsByName(String name);
 
     @Override
     void deleteById(String id);
+
+    @Override
+    void deleteAll();    
 }
