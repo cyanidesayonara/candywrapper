@@ -75,28 +75,6 @@ public class UserController {
         return new ResponseEntity<User>(createdUser, HttpStatus.OK);
     }
 
-    @PostMapping("/users/login")
-    public ResponseEntity<?> login(@RequestBody User user, BindingResult bindingResult) {
-        logger.info("Logging in User : {}", user);
-
-        userValidator.validate(user, bindingResult);
-
-        if (bindingResult.hasErrors()) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-
-        securityService.autologin(user.getUsername(), user.getPasswordConfirm());
-
-        return new ResponseEntity<User>(user, HttpStatus.OK);
-    }
-
-    @PostMapping("/users/logout")
-    public ResponseEntity<?> logout(@RequestBody User user, BindingResult bindingResult) {
-        logger.info("Logging out User : {}", user);
-
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
     @PutMapping("/users/{id}")
     public ResponseEntity<?> update(@PathVariable("id") String id, @RequestBody User user) {
         logger.info("Updating User with id {}", id);

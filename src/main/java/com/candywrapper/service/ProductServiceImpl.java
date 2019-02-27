@@ -1,7 +1,6 @@
 package com.candywrapper.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.candywrapper.model.Product;
 import com.candywrapper.repository.ProductRepository;
