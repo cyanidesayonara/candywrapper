@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -31,16 +32,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-            .authorizeRequests()
-                .antMatchers("/products/**", "/registration").permitAll()
-                .anyRequest().authenticated()
-                .and()
-            .formLogin()
-                .loginPage("/login").permitAll()
-                .and()
-            .logout()
-                .logoutSuccessUrl("/logout").permitAll();
+        // Disable CSRF (cross site request forgery)
+        http.csrf().disable();
+
+        // No session will be created or used by spring security
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        // Entry points
+        http.authorizeRequests()//
+            .antMatchers("/users/login").permitAll()//
+            .antMatchers("/users/register").permitAll()//
+            // Disallow everything else..
+            .anyRequest().permitAll();
+            //.anyRequest().authenticated();
+
+        // If a user try to access a resource without having enough permissions
+        http.exceptionHandling().accessDeniedPage("/login");
+
+        // Optional, if you want to test the API from a browser
+        // http.httpBasic();
     }
 
     @Override

@@ -2,11 +2,19 @@ import React from 'react';
 
 const AddNewProductForm = ({ addNewProduct }) => {
   return (
-    <form onSubmit={ addNewProduct() }>
-      <input type='text' name='name' />
-      <input type='text' name='description' />
-      <button type='submit'>Add new product</button>
-    </form>
+    <div id='new'>
+      <form onSubmit={ addNewProduct() }>
+        <label htmlFor='new-name'>Name</label>
+        <br />
+        <input type='text' id='new-name' name='name' />
+        <br />
+        <label htmlFor='new-description'>Description</label>
+        <br />
+        <input type='text' id='new-description' name='description' />
+        <br />
+        <button type='submit'>Add new product</button>
+      </form>
+    </div>
   )
 }
 

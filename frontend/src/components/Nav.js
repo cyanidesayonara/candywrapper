@@ -1,23 +1,23 @@
 import React from 'react';
 
-const Nav = () => {
+const Nav = ({ changeView }) => {
   return (
     <nav id='nav'>
       <h1>
         Candywrapper
       </h1>
       <ul>
-        <li>
+        <li onClick={ changeView('browse') }>
           Browse
         </li>
-        <li>
+        <li onClick={ changeView('about') }>
           About
         </li>
-        <li>
+        <li onClick={ changeView('login') }>
           Login
         </li>
-        <li>
-          Signup
+        <li onClick={ changeView('register') }>
+          Register
         </li>
       </ul>
     </nav>

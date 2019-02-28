@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import productService from './services/products.js'
 import Nav from './components/Nav'
 import Products from './components/Products'
+import Login from './components/Login'
+import Register from './components/Register'
+import About from './components/About'
 import ReactGA from 'react-ga'
 
 class App extends Component {
@@ -9,6 +12,7 @@ class App extends Component {
     super(props)
     this.state = {
       products: [],
+      view: 'browse',
     }
   }
 
@@ -27,6 +31,18 @@ class App extends Component {
   initializeGA = () => {
     ReactGA.initialize('UA-120584024-5')
     ReactGA.pageview('/')
+  }
+
+  changeView = (view) => () => {
+    this.setState({ view: view })
+  }
+
+  login = () => (event) => {
+    event.preventDefault()
+  }
+
+  register = () => (event) => {
+    event.preventDefault()
   }
 
   addNewProduct = () => (event) => {
@@ -71,12 +87,24 @@ class App extends Component {
   render() {
     return (
       <div id='main'>
-        <Nav />
-        <Products
-          products={ this.state.products }
-          addNewProduct= { this.addNewProduct }
-          handleRemove={ this.handleRemove }
-        />
+        <Nav changeView={ this.changeView } />
+        {
+          this.state.view === 'browse' &&
+          <Products
+            products={ this.state.products }
+            addNewProduct= { this.addNewProduct }
+            handleRemove={ this.handleRemove }
+          />
+        }
+        { this.state.view === 'about' &&
+          <About />
+        }        
+        { this.state.view === 'login' &&
+          <Login login={ this.login } />
+        }
+        { this.state.view === 'register' &&
+          <Register register={ this.register } />
+        }        
       </div>
     );
   }

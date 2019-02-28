@@ -51,9 +51,26 @@ code {
   padding: 0;
 }
 #nav ul li {
+  cursor: pointer;
   text-align: center;
   flex: 1;
   padding: 5px;
+}
+#nav ul li:hover {
+  background: black;
+  color: red;
+}
+
+#login {
+  text-align: center;
+}
+
+#register {
+  text-align: center;
+}
+
+#new {
+  text-align: center;
 }
 
 #products {
