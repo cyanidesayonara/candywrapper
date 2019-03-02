@@ -57,6 +57,24 @@ public class UserController {
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 
+    @PostMapping("/users/login")
+    public ResponseEntity<?> login(@RequestBody User user, BindingResult bindingResult) {
+        logger.info("Logging in User : {}", user);
+        
+        userValidator.validate(user, bindingResult);
+        
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+
+        userService.save(user);
+
+        securityService.autologin(user.getUsername(), user.getPasswordConfirm());
+
+        User createdUser = userService.save(user);
+        return new ResponseEntity<User>(createdUser, HttpStatus.OK);
+    }
+
     @PostMapping("/users/register")
     public ResponseEntity<?> register(@RequestBody User user, BindingResult bindingResult) {
         logger.info("Registering User : {}", user);

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Nav = ({ changeView }) => {
+const Nav = ({ user, changeView, logout }) => {
   return (
     <nav id='nav'>
       <h1>
@@ -13,12 +13,30 @@ const Nav = ({ changeView }) => {
         <li onClick={ changeView('about') }>
           About
         </li>
-        <li onClick={ changeView('login') }>
-          Login
-        </li>
-        <li onClick={ changeView('register') }>
-          Register
-        </li>
+        {
+          user === null &&
+          <li onClick={ changeView('login') }>
+            Login
+          </li>
+        }
+        {
+          user === null &&
+          <li onClick={ changeView('register') }>
+            Register
+          </li>
+        }
+        {
+          user !== null &&
+          <li onClick={ changeView('basket') }>
+            Basket
+          </li>
+        }
+        {
+          user !== null &&
+          <li onClick={ logout() }>
+            Logout
+          </li>
+        }
       </ul>
     </nav>
   )

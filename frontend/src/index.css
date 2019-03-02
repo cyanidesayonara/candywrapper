@@ -73,6 +73,10 @@ code {
   text-align: center;
 }
 
+#basket {
+  text-align: center;
+}
+
 #products {
   border: 2px dashed green;
 }

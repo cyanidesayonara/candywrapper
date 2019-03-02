@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import productService from './services/products.js'
+import userService from './services/users.js'
 import Nav from './components/Nav'
 import Products from './components/Products'
 import Login from './components/Login'
 import Register from './components/Register'
 import About from './components/About'
+import Basket from './components/Basket'
 import ReactGA from 'react-ga'
 
 class App extends Component {
@@ -13,6 +15,9 @@ class App extends Component {
     this.state = {
       products: [],
       view: 'browse',
+      user: null,
+      login_username: '',
+      login_password: '',
     }
   }
 
@@ -37,8 +42,40 @@ class App extends Component {
     this.setState({ view: view })
   }
 
+  logout = () => (event) => {
+    event.preventDefault()
+
+    try {
+      //noteService.removeToken(this.state.user.token)
+      window.localStorage.removeItem('user')
+      this.setState({ user: null })
+    } catch (exception) {
+      this.setState({ user: null })
+    }
+  }
+
   login = () => (event) => {
     event.preventDefault()
+
+    try {
+      const user = userService.login({
+        username: this.state.login_username,
+        password: this.state.login_password
+      })
+
+      window.localStorage.setItem('user', JSON.stringify(user))
+      //noteService.setToken(user.token)
+
+      this.setState({
+        user: user,
+        view: 'browse',
+        login_username: '',
+        login_password: '',
+      })
+    } catch (exception) {
+      console.log("sdfds")
+      this.setState({ login_password: '', user: 'guy', view: 'browse', })
+    }
   }
 
   register = () => (event) => {
@@ -49,22 +86,20 @@ class App extends Component {
     event.preventDefault()
     const name = event.target.name.value
     const description = event.target.description.value
-    if (!name || !description) {
-      console.log(event)
-      return null
-    }
-    const product = {
-      name: name,
-      description: description,
-    }
-    productService
-      .create(product)
-      .then(createdProduct => {
-        this.setState({
-          products: this.state.products.concat(createdProduct)
+    if (name && description) {
+      const product = {
+        name: name,
+        description: description,
+      }
+      productService
+        .create(product)
+        .then(createdProduct => {
+          this.setState({
+            products: this.state.products.concat(createdProduct)
+          })
         })
-      })
-      .catch(error => console.log(error))
+        .catch(error => console.log(error))
+    }
   }
 
   handleRemove = (product) => () => {
@@ -87,7 +122,11 @@ class App extends Component {
   render() {
     return (
       <div id='main'>
-        <Nav changeView={ this.changeView } />
+        <Nav
+          user={ this.state.user }
+          changeView={ this.changeView }
+          logout={ this.logout }
+        />
         {
           this.state.view === 'browse' &&
           <Products
@@ -98,13 +137,16 @@ class App extends Component {
         }
         { this.state.view === 'about' &&
           <About />
-        }        
+        }
         { this.state.view === 'login' &&
           <Login login={ this.login } />
         }
         { this.state.view === 'register' &&
           <Register register={ this.register } />
-        }        
+        }
+        { this.state.view === 'basket' &&
+          <Basket />
+        }
       </div>
     );
   }
