@@ -43,6 +43,7 @@ code {
 #nav h1 {
   margin: 10px 0;
   text-align: center;
+  cursor: pointer;
 }
 #nav ul {
   display: flex;

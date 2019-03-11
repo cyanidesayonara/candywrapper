@@ -18,6 +18,9 @@ class App extends Component {
       user: null,
       login_username: '',
       login_password: '',
+      register_username: '',
+      register_password: '',
+      register_passwordConfirm: '',
     }
   }
 
@@ -48,9 +51,9 @@ class App extends Component {
     try {
       //noteService.removeToken(this.state.user.token)
       window.localStorage.removeItem('user')
-      this.setState({ user: null })
-    } catch (exception) {
-      this.setState({ user: null })
+      this.setState({ user: null, view: 'browse', })
+    } catch (e) {
+      this.setState({ user: null, view: 'browse', })
     }
   }
 
@@ -72,14 +75,34 @@ class App extends Component {
         login_username: '',
         login_password: '',
       })
-    } catch (exception) {
-      console.log("sdfds")
-      this.setState({ login_password: '', user: 'guy', view: 'browse', })
+    } catch (e) {
+      this.setState({ login_username: '', login_password: '', user: 'guy', view: 'browse', })
     }
   }
 
   register = () => (event) => {
     event.preventDefault()
+
+    try {
+      const user = userService.register({
+        username: this.state.register_username,
+        password: this.state.register_password,
+        passwordConfirm: this.state.register_passwordConfirm,
+      })
+
+      window.localStorage.setItem('user', JSON.stringify(user))
+      //noteService.setToken(user.token)
+
+      this.setState({
+        user: user,
+        view: 'browse',
+        register_username: '',
+        register_password: '',
+        register_passwordConfirm: '',
+      })
+    } catch (e) {
+      this.setState({ register_username: '', register_password: '', register_passwordConfirm: '', user: 'guy', view: 'browse', })
+    }
   }
 
   addNewProduct = () => (event) => {
@@ -117,6 +140,12 @@ class App extends Component {
           })
       }
     }
+  }
+
+  handleInputChange = () => (event) => {
+    const value = event.target.value
+    const name = event.target.name
+    this.setState({ [name]: value })
   }  
 
   render() {
@@ -133,16 +162,28 @@ class App extends Component {
             products={ this.state.products }
             addNewProduct= { this.addNewProduct }
             handleRemove={ this.handleRemove }
+            user={ this.state.user }
           />
         }
         { this.state.view === 'about' &&
           <About />
         }
         { this.state.view === 'login' &&
-          <Login login={ this.login } />
+          <Login
+            login={ this.login }
+            handleInputChange={ this.handleInputChange }
+            username={ this.state.login_username }
+            password={ this.state.login_password }
+          />
         }
         { this.state.view === 'register' &&
-          <Register register={ this.register } />
+          <Register
+            register={ this.register }
+            handleInputChange={ this.handleInputChange }
+            username={ this.state.register_username }
+            password={ this.state.register_password }
+            passwordConfirm={ this.state.register_passwordConfirm }            
+          />
         }
         { this.state.view === 'basket' &&
           <Basket />

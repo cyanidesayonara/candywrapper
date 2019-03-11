@@ -5,11 +5,15 @@ import AddNewProductForm from './AddNewProductForm'
 const Products = ({
     products,
     addNewProduct,
-    handleRemove
+    handleRemove,
+    user,
   }) => {
   return (
     <div id='products'>
-      <AddNewProductForm addNewProduct={ addNewProduct } />
+      {
+        user !== null &&
+        <AddNewProductForm addNewProduct={ addNewProduct } />
+      }
       { products.map((product) => 
         <Product
           key={ product.id }
