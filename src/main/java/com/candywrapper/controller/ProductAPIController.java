@@ -23,9 +23,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-public class ProductController {
+public class ProductAPIController {
     
-    public static final Logger logger = LoggerFactory.getLogger(ProductController.class);
+    public static final Logger logger = LoggerFactory.getLogger(ProductAPIController.class);
 
     @Autowired
     private ProductService productService;

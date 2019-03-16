@@ -1,7 +1,9 @@
-package com.candywrapper.service;;
+package com.candywrapper.service;
+
+import org.springframework.security.core.userdetails.UserDetails;
 
 public interface SecurityService {
     String findLoggedInUsername();
 
-    void autologin(String username, String password);
+    UserDetails autologin(String username, String password);
 }

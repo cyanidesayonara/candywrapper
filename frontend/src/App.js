@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import productService from './services/products.js'
 import userService from './services/users.js'
+import accountService from './services/accounts.js'
 import Nav from './components/Nav'
 import Products from './components/Products'
 import Login from './components/Login'
@@ -51,17 +52,23 @@ class App extends Component {
     try {
       //noteService.removeToken(this.state.user.token)
       window.localStorage.removeItem('user')
-      this.setState({ user: null, view: 'browse', })
+      this.setState({ 
+        user: null,
+        view: 'browse',
+      })
     } catch (e) {
-      this.setState({ user: null, view: 'browse', })
+      this.setState({
+        user: null,
+        view: 'browse',
+      })
     }
   }
 
-  login = () => (event) => {
+  login = () => async (event) => {
     event.preventDefault()
 
     try {
-      const user = userService.login({
+      const user = await accountService.login({
         username: this.state.login_username,
         password: this.state.login_password
       })
@@ -76,15 +83,17 @@ class App extends Component {
         login_password: '',
       })
     } catch (e) {
-      this.setState({ login_username: '', login_password: '', user: 'guy', view: 'browse', })
+      this.setState({ 
+        login_password: '',
+      })
     }
   }
 
-  register = () => (event) => {
+  register = () => async (event) => {
     event.preventDefault()
 
     try {
-      const user = userService.register({
+      const user = await accountService.register({
         username: this.state.register_username,
         password: this.state.register_password,
         passwordConfirm: this.state.register_passwordConfirm,
@@ -101,7 +110,10 @@ class App extends Component {
         register_passwordConfirm: '',
       })
     } catch (e) {
-      this.setState({ register_username: '', register_password: '', register_passwordConfirm: '', user: 'guy', view: 'browse', })
+      this.setState({ 
+        register_password: '',
+        register_passwordConfirm: '',
+      })
     }
   }
 
@@ -157,6 +169,12 @@ class App extends Component {
           logout={ this.logout }
         />
         {
+          this.state.user !== null &&
+          <div>
+            <p>Logged in as: { this.state.user.username }</p>
+          </div>
+        }
+        {
           this.state.view === 'browse' &&
           <Products
             products={ this.state.products }
@@ -179,10 +197,10 @@ class App extends Component {
         { this.state.view === 'register' &&
           <Register
             register={ this.register }
-            handleInputChange={ this.handleInputChange }
             username={ this.state.register_username }
             password={ this.state.register_password }
-            passwordConfirm={ this.state.register_passwordConfirm }            
+            passwordConfirm={ this.state.register_passwordConfirm }
+            handleInputChange={ this.handleInputChange }          
           />
         }
         { this.state.view === 'basket' &&

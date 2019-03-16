@@ -10,22 +10,22 @@ const Login = ({
     <div id='login'>
       <form onSubmit={ login() }>
         <h1>Login</h1>
-        <label htmlFor='login-username'>Username</label>
+        <label htmlFor='login_username'>Username</label>
         <br />
         <input
           type='text'
-          id='login-username'
-          name='login-username'
+          id='login_username'
+          name='login_username'
           value={ username }
           onChange={ handleInputChange() }          
         />
         <br />
-        <label htmlFor='login-password'>Password</label>
+        <label htmlFor='login_password'>Password</label>
         <br />
         <input
           type='password'
-          id='login-password'
-          name='login-password'
+          id='login_password'
+          name='login_password'
           value={ password }
           onChange={ handleInputChange() }          
         />

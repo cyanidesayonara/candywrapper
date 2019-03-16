@@ -3,7 +3,8 @@ package com.candywrapper.controller;
 import com.candywrapper.model.User;
 import com.candywrapper.service.UserService;
 import com.candywrapper.service.SecurityService;
-import com.candywrapper.validator.UserValidator;
+import com.candywrapper.validator.LoginValidator;
+import com.candywrapper.validator.RegisterValidator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,11 +23,13 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api")
-public class UserController {
+public class UserAPIController {
     
-    public static final Logger logger = LoggerFactory.getLogger(UserController.class);
+    public static final Logger logger = LoggerFactory.getLogger(UserAPIController.class);
 
     @Autowired
     private UserService userService;
@@ -35,7 +38,10 @@ public class UserController {
     private SecurityService securityService;
 
     @Autowired
-    private UserValidator userValidator;
+    private LoginValidator loginValidator;
+
+    @Autowired
+    private RegisterValidator registerValidator;    
 
     @GetMapping("/users/")
     public ResponseEntity<List<User>> findAll() {
@@ -57,37 +63,15 @@ public class UserController {
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 
-    @PostMapping("/users/login")
-    public ResponseEntity<?> login(@RequestBody User user, BindingResult bindingResult) {
-        logger.info("Logging in User : {}", user);
+    @PostMapping("/users/")
+    public ResponseEntity<?> save(@RequestBody @Valid User user, BindingResult bindingResult) {
+        logger.info("Saving User : {}", user);
         
-        userValidator.validate(user, bindingResult);
-        
-        if (bindingResult.hasErrors()) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-
-        userService.save(user);
-
-        securityService.autologin(user.getUsername(), user.getPasswordConfirm());
-
-        User createdUser = userService.save(user);
-        return new ResponseEntity<User>(createdUser, HttpStatus.OK);
-    }
-
-    @PostMapping("/users/register")
-    public ResponseEntity<?> register(@RequestBody User user, BindingResult bindingResult) {
-        logger.info("Registering User : {}", user);
-        
-        userValidator.validate(user, bindingResult);
+        registerValidator.validate(user, bindingResult);
         
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-
-        userService.save(user);
-
-        securityService.autologin(user.getUsername(), user.getPasswordConfirm());
 
         User createdUser = userService.save(user);
         return new ResponseEntity<User>(createdUser, HttpStatus.OK);

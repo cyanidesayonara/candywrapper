@@ -11,32 +11,32 @@ const Register = ({
     <div id='register'>
       <form onSubmit={ register() }>
         <h1>Register</h1>
-        <label htmlFor='register-username'>Username</label>
+        <label htmlFor='register_username'>Username</label>
         <br />
         <input
           type='text'
-          id='register-username'
-          name='register-username'
+          id='register_username'
+          name='register_username'
           value={ username }
           onChange={ handleInputChange() }
         />
         <br />
-        <label htmlFor='register-password'>Password</label>
+        <label htmlFor='register_password'>Password</label>
         <br />
         <input
           type='password'
-          id='register-password'
-          name = 'register-password'
+          id='register_password'
+          name = 'register_password'
           value={ password }
           onChange={ handleInputChange() }          
         />
         <br />
-        <label htmlFor='register-passwordConfirm'>Password (Again)</label>
+        <label htmlFor='register_passwordConfirm'>Password (Again)</label>
         <br />
         <input
           type='password'
-          id='register-passwordConfirm'
-          name='register-passwordConfirm'
+          id='register_passwordConfirm'
+          name='register_passwordConfirm'
           value={ passwordConfirm }
           onChange={ handleInputChange() }          
         />

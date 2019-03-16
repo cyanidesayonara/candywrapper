@@ -8,7 +8,7 @@ const getAll = async () => {
 }
 
 const getOne = async (product) => {
-  const response = await axios.get(`${baseUrl}/${product.id}`, product)
+  const response = await axios.get(`${baseUrl}${product.id}`, product)
   return response.data
 }
 
@@ -18,12 +18,12 @@ const create = async (product) => {
 }
 
 const update = async (product) => {
-  const response = await axios.put(`${baseUrl}/${product.id}`, product)
+  const response = await axios.put(`${baseUrl}${product.id}`, product)
   return response.data
 }
 
 const remove = async (product) => {
-  const response = await axios.delete(`${baseUrl}/${product.id}`)
+  const response = await axios.delete(`${baseUrl}${product.id}`)
   return response.data
 }
 
