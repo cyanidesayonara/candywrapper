@@ -5,8 +5,10 @@ import AddNewProductForm from './AddNewProductForm'
 const Products = ({
     products,
     addNewProduct,
-    handleRemove,
+    removeProduct,
+    addBasketProduct,
     user,
+    saveProduct,
   }) => {
   return (
     <div id='products'>
@@ -18,7 +20,9 @@ const Products = ({
         <Product
           key={ product.id }
           product={ product }
-          handleRemove={ handleRemove }
+          removeProduct={ removeProduct }
+          addBasketProduct={ addBasketProduct }
+          saveProduct={ saveProduct }
         />
       ) }
     </div>

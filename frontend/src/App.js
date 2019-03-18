@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import productService from './services/products.js'
-import userService from './services/users.js'
+//import userService from './services/users.js'
 import accountService from './services/accounts.js'
+import basketProductService from './services/basketProducts.js'
 import Nav from './components/Nav'
 import Products from './components/Products'
 import Login from './components/Login'
 import Register from './components/Register'
 import About from './components/About'
-import Basket from './components/Basket'
+import BasketProducts from './components/BasketProducts.js'
 import ReactGA from 'react-ga'
 
 class App extends Component {
@@ -17,6 +18,7 @@ class App extends Component {
       products: [],
       view: 'browse',
       user: null,
+      basket: [],
       login_username: '',
       login_password: '',
       register_username: '',
@@ -28,6 +30,7 @@ class App extends Component {
   componentDidMount() {
     document.title = 'Candy Wrapper'
     this.fetchProducts()
+    this.fetchBasketProducts()
     this.initializeGA()
   }
 
@@ -36,6 +39,12 @@ class App extends Component {
       .getAll()
       .then(products => this.setState({ products: products }))
   }
+
+  fetchBasketProducts = () => {
+    basketProductService
+      .getAll()
+      .then(basketProducts => this.setState({ basketProducts: basketProducts }))
+  }  
 
   initializeGA = () => {
     ReactGA.initialize('UA-120584024-5')
@@ -137,20 +146,65 @@ class App extends Component {
     }
   }
 
-  handleRemove = (product) => () => {
-    if (!product.author) {
-      if (window.confirm('Are you sure you want to remove this product?')) {
-        productService
-          .remove(product)
-          .then(response => {
-            const products = this.state.products.filter(p => p.id !== product.id)
-            this.setState({ products: products })
+  saveProduct = (product) => (event) => {
+    event.preventDefault()
+  }
+
+  addBasketProduct = (product) => (event) => {
+    const amount = event.target.getAttribute('data-amount')
+    const parsedAmount = parseInt(amount)
+    const basketid = event.target.getAttribute('data-basketid')
+
+    if (!isNaN(parsedAmount)) {
+      if (0 < parsedAmount && 100 > parsedAmount) {
+
+        const basketProduct = {
+          basket: basketid,
+          product: product,
+          amount: amount
+        }
+        console.log(basketProduct)
+        basketProductService
+          .create(basketProduct)
+          .then(createdBasketProduct => {
+            if (this.state.basket.length) {
+              this.setState({
+                basket: this.state.basket.concat(createdBasketProduct)
+              })
+            }
           })
-          .catch(error => {
-            const products = this.state.products.filter(p => p.id !== product.id)
-            this.setState({ products: products })
-          })
+          .catch(error => console.log(error))
       }
+    }
+  }
+
+  removeBasketProduct = (basketProduct) => () => {
+    if (window.confirm('Are you sure you want to remove this product?')) {
+      basketProductService
+        .remove(basketProduct)
+        .then(response => {
+          const basketProducts = this.state.basketProducts.filter(p => p.id !== basketProduct.id)
+          this.setState({ basketProducts: basketProducts })
+        })
+        .catch(error => {
+          const basketProducts = this.state.basketProducts.filter(p => p.id !== basketProduct.id)
+          this.setState({ basketProducts: basketProducts })
+        })
+    }
+  }  
+
+  removeProduct = (product) => () => {
+    if (window.confirm('Are you sure you want to remove this product?')) {
+      productService
+        .remove(product)
+        .then(response => {
+          const products = this.state.products.filter(p => p.id !== product.id)
+          this.setState({ products: products })
+        })
+        .catch(error => {
+          const products = this.state.products.filter(p => p.id !== product.id)
+          this.setState({ products: products })
+        })
     }
   }
 
@@ -179,8 +233,10 @@ class App extends Component {
           <Products
             products={ this.state.products }
             addNewProduct= { this.addNewProduct }
-            handleRemove={ this.handleRemove }
+            removeProduct={ this.removeProduct }
+            addBasketProduct={ this.addBasketProduct }
             user={ this.state.user }
+            saveProduct={ this.saveProduct }
           />
         }
         { this.state.view === 'about' &&
@@ -203,9 +259,10 @@ class App extends Component {
             handleInputChange={ this.handleInputChange }          
           />
         }
-        { this.state.view === 'basket' &&
-          <Basket />
-        }
+        <BasketProducts
+          basketProducts={ this.basketProducts }
+          removeBasketProduct={ this.removeBasketProduct }
+        />
       </div>
     );
   }

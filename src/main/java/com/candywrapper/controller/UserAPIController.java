@@ -2,8 +2,6 @@ package com.candywrapper.controller;
 
 import com.candywrapper.model.User;
 import com.candywrapper.service.UserService;
-import com.candywrapper.service.SecurityService;
-import com.candywrapper.validator.LoginValidator;
 import com.candywrapper.validator.RegisterValidator;
 
 import org.slf4j.Logger;
@@ -33,12 +31,6 @@ public class UserAPIController {
 
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private SecurityService securityService;
-
-    @Autowired
-    private LoginValidator loginValidator;
 
     @Autowired
     private RegisterValidator registerValidator;    
@@ -108,7 +100,7 @@ public class UserAPIController {
 
     @DeleteMapping("/users/")
     public ResponseEntity<?> deleteAll() {
-        logger.info("Deleting all users");
+        logger.info("Deleting all Users");
 
         userService.deleteAll();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

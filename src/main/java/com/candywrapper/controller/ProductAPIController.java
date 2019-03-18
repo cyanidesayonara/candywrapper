@@ -92,7 +92,7 @@ public class ProductAPIController {
 
     @DeleteMapping("/products/")
     public ResponseEntity<?> deleteAll() {
-        logger.info("Deleting all users");
+        logger.info("Deleting all Products");
 
         productService.deleteAll();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
