@@ -18,7 +18,7 @@ class App extends Component {
       products: [],
       view: 'browse',
       user: null,
-      basket: [],
+      basketProducts: [],
       addnew_name: '',
       addnew_description: '',
       login_username: '',
@@ -170,9 +170,9 @@ class App extends Component {
         basketProductService
           .create(basketProduct)
           .then(createdBasketProduct => {
-            if (this.state.basket.length) {
+            if (this.state.basketProducts.length) {
               this.setState({
-                basket: this.state.basket.concat(createdBasketProduct)
+                basketProducts: this.state.basketProducts.concat(createdBasketProduct)
               })
             }
           })
@@ -266,7 +266,7 @@ class App extends Component {
           />
         }
         <BasketProducts
-          basketProducts={ this.basketProducts }
+          basketProducts={ this.state.basketProducts }
           removeBasketProduct={ this.removeBasketProduct }
         />
       </div>

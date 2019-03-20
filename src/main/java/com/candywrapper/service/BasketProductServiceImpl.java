@@ -2,6 +2,7 @@ package com.candywrapper.service;
 
 import java.util.List;
 
+import com.candywrapper.model.Product;
 import com.candywrapper.model.BasketProduct;
 import com.candywrapper.repository.BasketProductRepository;
 
@@ -27,6 +28,11 @@ public class BasketProductServiceImpl implements BasketProductService {
     @Override
     public boolean existsById(String id) {
         return basketProductRepository.existsById(id);
+    }
+
+    @Override
+    public boolean existsByProduct(Product product) {
+        return basketProductRepository.existsByProduct(product);
     }
 
     @Override

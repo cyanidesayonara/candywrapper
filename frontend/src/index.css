@@ -75,10 +75,15 @@ code {
 }
 
 #basket {
+  position: fixed;
+  left: 100px;
+  top: 100px;
   text-align: center;
+  border: 2px dashed green;
 }
 
 #products {
+  text-align: center;
   border: 2px dashed green;
 }
 
