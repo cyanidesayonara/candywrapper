@@ -19,6 +19,8 @@ class App extends Component {
       view: 'browse',
       user: null,
       basket: [],
+      addnew_name: '',
+      addnew_description: '',
       login_username: '',
       login_password: '',
       register_username: '',
@@ -128,8 +130,8 @@ class App extends Component {
 
   addNewProduct = () => (event) => {
     event.preventDefault()
-    const name = event.target.name.value
-    const description = event.target.description.value
+    const name = event.target.addnew_name.value
+    const description = event.target.addnew_description.value
     if (name && description) {
       const product = {
         name: name,
@@ -139,7 +141,9 @@ class App extends Component {
         .create(product)
         .then(createdProduct => {
           this.setState({
-            products: this.state.products.concat(createdProduct)
+            products: this.state.products.concat(createdProduct),
+            addnew_name: '',
+            addnew_description: '',
           })
         })
         .catch(error => console.log(error))
@@ -157,7 +161,6 @@ class App extends Component {
 
     if (!isNaN(parsedAmount)) {
       if (0 < parsedAmount && 100 > parsedAmount) {
-
         const basketProduct = {
           basket: basketid,
           product: product,
@@ -233,6 +236,9 @@ class App extends Component {
           <Products
             products={ this.state.products }
             addNewProduct= { this.addNewProduct }
+            handleInputChange={ this.handleInputChange }
+            addnew_name={ this.state.addnew_name }
+            addnew_description={ this.state.addnew_description }
             removeProduct={ this.removeProduct }
             addBasketProduct={ this.addBasketProduct }
             user={ this.state.user }

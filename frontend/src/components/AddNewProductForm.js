@@ -1,16 +1,21 @@
 import React from 'react';
 
-const AddNewProductForm = ({ addNewProduct }) => {
+const AddNewProductForm = ({
+    addnew_name,
+    addnew_description,
+    addNewProduct,
+    handleInputChange,
+  }) => {
   return (
     <div id='new'>
       <form onSubmit={ addNewProduct() }>
-        <label htmlFor='new-name'>Name</label>
+        <label htmlFor='addnew_name'>Name</label>
         <br />
-        <input type='text' id='new-name' name='name' />
+        <input onChange={ handleInputChange() } type='text' id='addnew_name' name='addnew_name' value={ addnew_name } />
         <br />
-        <label htmlFor='new-description'>Description</label>
+        <label htmlFor='addnew_description'>Description</label>
         <br />
-        <input type='text' id='new-description' name='description' />
+        <input onChange={ handleInputChange() } type='text' id='addnew_description' name='addnew_description' value={ addnew_description } />
         <br />
         <button type='submit'>Add new product</button>
       </form>
