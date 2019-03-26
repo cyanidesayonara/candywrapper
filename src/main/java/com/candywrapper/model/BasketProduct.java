@@ -13,15 +13,13 @@ public class BasketProduct {
 
     @Id
     private String id;
-    private String basket;
 
     @DBRef
     private Product product;
     private String amount;
 
-    public BasketProduct(String id, String basket, Product product, String amount) {
+    public BasketProduct(String id, Product product, String amount) {
         this.id = id;
-        this.basket = basket;
         this.product = product;
         this.amount = amount;
     }

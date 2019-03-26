@@ -1,13 +1,20 @@
 import React from 'react';
 
 const AddNewProductForm = ({
-    addnew_name,
-    addnew_description,
-    addNewProduct,
-    handleInputChange,
-  }) => {
+  addnew_name,
+  addnew_description,
+  addNewProduct,
+  handleInputChange,
+  user,
+}) => {
+  if (user === null) {
+    return null
+  }
   return (
     <div id='new'>
+      <h1>
+        Add new product
+      </h1>
       <form onSubmit={ addNewProduct() }>
         <label htmlFor='addnew_name'>Name</label>
         <br />

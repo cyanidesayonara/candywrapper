@@ -3,7 +3,10 @@ import productService from './services/products.js'
 //import userService from './services/users.js'
 import accountService from './services/accounts.js'
 import basketProductService from './services/basketProducts.js'
+import Header from './components/Header'
 import Nav from './components/Nav'
+import UserInfo from './components/UserInfo'
+import Splash from './components/Splash'
 import Products from './components/Products'
 import Login from './components/Login'
 import Register from './components/Register'
@@ -16,9 +19,9 @@ class App extends Component {
     super(props)
     this.state = {
       products: [],
-      view: 'browse',
-      user: null,
       basketProducts: [],
+      view: 'splash',
+      user: null,
       addnew_name: '',
       addnew_description: '',
       login_username: '',
@@ -31,9 +34,20 @@ class App extends Component {
 
   componentDidMount() {
     document.title = 'Candy Wrapper'
+
+    this.getUser()
     this.fetchProducts()
     this.fetchBasketProducts()
     this.initializeGA()
+  }
+
+  getUser = () => {
+    // save user to local storage
+    const loggedUserJSON = window.localStorage.getItem('user')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      this.setState({ user: user })
+    }
   }
 
   fetchProducts = () => {
@@ -46,7 +60,7 @@ class App extends Component {
     basketProductService
       .getAll()
       .then(basketProducts => this.setState({ basketProducts: basketProducts }))
-  }  
+  }
 
   initializeGA = () => {
     ReactGA.initialize('UA-120584024-5')
@@ -65,12 +79,12 @@ class App extends Component {
       window.localStorage.removeItem('user')
       this.setState({ 
         user: null,
-        view: 'browse',
+        view: 'splash',
       })
     } catch (e) {
       this.setState({
         user: null,
-        view: 'browse',
+        view: 'splash',
       })
     }
   }
@@ -157,24 +171,18 @@ class App extends Component {
   addBasketProduct = (product) => (event) => {
     const amount = event.target.getAttribute('data-amount')
     const parsedAmount = parseInt(amount)
-    const basketid = event.target.getAttribute('data-basketid')
-
     if (!isNaN(parsedAmount)) {
       if (0 < parsedAmount && 100 > parsedAmount) {
         const basketProduct = {
-          basket: basketid,
           product: product,
           amount: amount
         }
-        console.log(basketProduct)
         basketProductService
           .create(basketProduct)
           .then(createdBasketProduct => {
-            if (this.state.basketProducts.length) {
-              this.setState({
-                basketProducts: this.state.basketProducts.concat(createdBasketProduct)
-              })
-            }
+            this.setState({
+              basketProducts: this.state.basketProducts.concat(createdBasketProduct)
+            })
           })
           .catch(error => console.log(error))
       }
@@ -215,60 +223,66 @@ class App extends Component {
     const value = event.target.value
     const name = event.target.name
     this.setState({ [name]: value })
-  }  
+  }
 
   render() {
     return (
-      <div id='main'>
+      <div id='container'>
+        <Header
+          changeView={ this.changeView }        
+        />
         <Nav
           user={ this.state.user }
           changeView={ this.changeView }
-          logout={ this.logout }
+          logout = { this.logout }
         />
-        {
-          this.state.user !== null &&
-          <div>
-            <p>Logged in as: { this.state.user.username }</p>
-          </div>
-        }
-        {
-          this.state.view === 'browse' &&
-          <Products
-            products={ this.state.products }
-            addNewProduct= { this.addNewProduct }
-            handleInputChange={ this.handleInputChange }
-            addnew_name={ this.state.addnew_name }
-            addnew_description={ this.state.addnew_description }
-            removeProduct={ this.removeProduct }
-            addBasketProduct={ this.addBasketProduct }
-            user={ this.state.user }
-            saveProduct={ this.saveProduct }
-          />
-        }
-        { this.state.view === 'about' &&
-          <About />
-        }
-        { this.state.view === 'login' &&
-          <Login
-            login={ this.login }
-            handleInputChange={ this.handleInputChange }
-            username={ this.state.login_username }
-            password={ this.state.login_password }
-          />
-        }
-        { this.state.view === 'register' &&
-          <Register
-            register={ this.register }
-            username={ this.state.register_username }
-            password={ this.state.register_password }
-            passwordConfirm={ this.state.register_passwordConfirm }
-            handleInputChange={ this.handleInputChange }          
-          />
-        }
-        <BasketProducts
-          basketProducts={ this.state.basketProducts }
-          removeBasketProduct={ this.removeBasketProduct }
+        <UserInfo
+          user = { this.state.user }
         />
+        <div id="main">
+          { this.state.view === 'splash' &&
+            <Splash />
+          }
+          { this.state.view === 'browse' &&
+            <Products
+              products={ this.state.products }
+              addNewProduct= { this.addNewProduct }
+              handleInputChange={ this.handleInputChange }
+              addnew_name={ this.state.addnew_name }
+              addnew_description={ this.state.addnew_description }
+              removeProduct={ this.removeProduct }
+              addBasketProduct={ this.addBasketProduct }
+              user={ this.state.user }
+              saveProduct={ this.saveProduct }
+            />
+          }
+          { this.state.view === 'about' &&
+            <About />
+          }
+          { this.state.view === 'login' &&
+            <Login
+              login={ this.login }
+              handleInputChange={ this.handleInputChange }
+              username={ this.state.login_username }
+              password={ this.state.login_password }
+            />
+          }
+          { this.state.view === 'register' &&
+            <Register
+              register={ this.register }
+              username={ this.state.register_username }
+              password={ this.state.register_password }
+              passwordConfirm={ this.state.register_passwordConfirm }
+              handleInputChange={ this.handleInputChange }          
+            />
+          }
+          { this.state.view === 'basket' &&
+            <BasketProducts
+              basketProducts={ this.state.basketProducts }
+              removeBasketProduct={ this.removeBasketProduct }
+            />
+          }
+        </div>
       </div>
     );
   }

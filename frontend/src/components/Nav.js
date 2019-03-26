@@ -3,9 +3,6 @@ import React from 'react';
 const Nav = ({ user, changeView, logout }) => {
   return (
     <nav id='nav'>
-      <h1 onClick={ changeView('browse') }>
-        Candy Wrapper
-      </h1>
       <ul>
         <li onClick={ changeView('browse') }>
           Browse

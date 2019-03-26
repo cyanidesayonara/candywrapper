@@ -7,7 +7,7 @@ const BasketProducts = ({
 }) => {
   return (
     <div id='basket'>
-      {
+      { 
         basketProducts &&
         basketProducts.map((basketProduct) =>
           <BasketProduct

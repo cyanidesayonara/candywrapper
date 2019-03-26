@@ -15,15 +15,13 @@ const Products = ({
   }) => {
   return (
     <div id='products'>
-      {
-        user !== null &&
-        <AddNewProductForm
-          addNewProduct={ addNewProduct }
-          addnew_name={ addnew_name }
-          addnew_description={ addnew_description }
-          handleInputChange={ handleInputChange }
-        />
-      }
+      <AddNewProductForm
+        addNewProduct={ addNewProduct }
+        addnew_name={ addnew_name }
+        addnew_description={ addnew_description }
+        handleInputChange={ handleInputChange }
+        user={ user }
+      />
       { products.map((product) => 
         <Product
           key={ product.id }
@@ -31,6 +29,7 @@ const Products = ({
           removeProduct={ removeProduct }
           addBasketProduct={ addBasketProduct }
           saveProduct={ saveProduct }
+          handleInputChange={ handleInputChange }
         />
       ) }
     </div>

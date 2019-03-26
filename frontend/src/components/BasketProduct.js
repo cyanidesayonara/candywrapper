@@ -14,7 +14,6 @@ const BasketProduct = ({
           { basketProduct.product.name }
         </a>
       </h1>
-      <p>id: { basketProduct.product.id }</p>
       <p>description: { basketProduct.product.description }</p>
       <button onClick={ removeBasketProduct(basketProduct) }>
         Delete
