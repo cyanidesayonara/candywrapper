@@ -5,6 +5,7 @@ const Register = ({
   username,
   password,
   passwordConfirm,
+  roles,
   handleInputChange,
 }) => {
   return (
@@ -40,7 +41,24 @@ const Register = ({
           value={ passwordConfirm }
           onChange={ handleInputChange() }          
         />
-        <br />        
+        <br />
+        <label>
+          Select your roles:
+          <select
+            multiple={ true }
+            id='register_roles'
+            name='register_roles'
+            value={ roles }
+            onChange={ handleInputChange() }
+          >
+            <option value='USER'>
+              User
+            </option>
+            <option value='ADMIN'>
+              Admin
+            </option>          
+          </select>
+        </label>
         <button type='submit'>Register</button>
       </form>
     </div>

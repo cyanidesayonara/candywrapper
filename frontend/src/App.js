@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import productService from './services/products.js'
 //import userService from './services/users.js'
 import accountService from './services/accounts.js'
+import roleService from './services/roles.js'
 import basketProductService from './services/basketProducts.js'
 import Header from './components/Header'
 import Nav from './components/Nav'
@@ -29,6 +30,7 @@ class App extends Component {
       register_username: '',
       register_password: '',
       register_passwordConfirm: '',
+      register_roles: ['USER'],
     }
   }
 
@@ -47,6 +49,10 @@ class App extends Component {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       this.setState({ user: user })
+      basketProductService.setToken(user.token)
+      //if (user.roles.includes('ADMIN')) {
+      //
+      //}
     }
   }
 
@@ -116,12 +122,19 @@ class App extends Component {
 
   register = () => async (event) => {
     event.preventDefault()
-
+    const roles = await roleService.getAll(roleService.getAll)
+    let selectedRoles = []
+    for (let i = 0; i > roles; i++) {
+      if (this.state.register_roles.includes(roles[i].name)) {
+        selectedRoles.push(roles[i])
+      }
+    }
     try {
       const user = await accountService.register({
         username: this.state.register_username,
         password: this.state.register_password,
         passwordConfirm: this.state.register_passwordConfirm,
+        roles: selectedRoles,
       })
 
       window.localStorage.setItem('user', JSON.stringify(user))
@@ -220,9 +233,15 @@ class App extends Component {
   }
 
   handleInputChange = () => (event) => {
-    const value = event.target.value
+    let value = ''
     const name = event.target.name
+    if (event.target.selectedOptions) {
+      value = Array.from(event.target.selectedOptions, (item) => item.value)
+    } else {
+      value = event.target.value
+    }
     this.setState({ [name]: value })
+    console.log(event.target.value, event.target.name)
   }
 
   render() {
@@ -273,6 +292,7 @@ class App extends Component {
               username={ this.state.register_username }
               password={ this.state.register_password }
               passwordConfirm={ this.state.register_passwordConfirm }
+              roles={ this.state.register_roles }
               handleInputChange={ this.handleInputChange }          
             />
           }

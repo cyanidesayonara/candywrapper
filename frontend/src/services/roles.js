@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = 'api/users/'
+const baseUrl = 'api/roles/'
 
 let token = null
 
@@ -13,35 +13,35 @@ const getAll = async () => {
   return response.data
 }
 
-const getOne = async (user) => {
-  const response = await axios.get(`${baseUrl}${user.id}`, user)
+const getOne = async (role) => {
+  const response = await axios.get(`${baseUrl}${role.id}`, role)
   return response.data
 }
 
-const create = async (user) => {
+const create = async (role) => {
   const config = {
     headers: { Authorization: token },
   }
 
-  const response = await axios.post(baseUrl, user, config)
+  const response = await axios.post(baseUrl, role, config)
   return response.data
 }
 
-const update = async (user) => {
+const update = async (role) => {
   const config = {
     headers: { Authorization: token },
   }
 
-  const response = await axios.put(`${baseUrl}${user.id}`, user, config)
+  const response = await axios.put(`${baseUrl}${role.id}`, role, config)
   return response.data
 }
 
-const remove = async (user) => {
+const remove = async (role) => {
   const config = {
     headers: { Authorization: token },
   }
 
-  const response = await axios.delete(`${baseUrl}${user.id}`, config)
+  const response = await axios.delete(`${baseUrl}${role.id}`, config)
   return response.data
 }
 

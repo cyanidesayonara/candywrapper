@@ -18,4 +18,9 @@ public class Role {
     private String id;
     private String name;
     private Set<User> users;
+
+    public Role(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }
