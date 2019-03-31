@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.candywrapper.service.ProductService;
 import com.candywrapper.service.BasketProductService;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -55,8 +54,14 @@ public class BasketProductAPIController {
     public ResponseEntity<?> save(@RequestBody BasketProduct basketProduct) {
         logger.info("Creating BasketProduct : {}", basketProduct);
         if (basketProductService.existsByProduct(basketProduct.getProduct())) {
-            logger.error("A BasketProduct with Product {} already exists", basketProduct.getProduct());
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            logger.info("A BasketProduct with Product {} already exists, adding", basketProduct.getProduct());
+            BasketProduct oldBasketProduct = basketProductService.findByProduct(basketProduct.getProduct());
+
+            basketProduct.setId(oldBasketProduct.getId());
+            basketProduct.setAmount(Integer.toString(Integer.parseInt(oldBasketProduct.getAmount()) + Integer.parseInt(basketProduct.getAmount())));
+
+            BasketProduct updatedBasketProduct = basketProductService.update(basketProduct);
+            return new ResponseEntity<BasketProduct>(updatedBasketProduct, HttpStatus.OK);
         }
         BasketProduct createdBasketProduct = basketProductService.save(basketProduct);
         return new ResponseEntity<BasketProduct>(createdBasketProduct, HttpStatus.OK);

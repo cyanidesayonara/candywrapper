@@ -26,6 +26,11 @@ public class BasketProductServiceImpl implements BasketProductService {
     }
 
     @Override
+    public BasketProduct findByProduct(Product product) {
+        return basketProductRepository.findByProduct(product);
+    }    
+
+    @Override
     public boolean existsById(String id) {
         return basketProductRepository.existsById(id);
     }

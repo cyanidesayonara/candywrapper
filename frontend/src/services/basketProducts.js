@@ -32,7 +32,6 @@ const update = async (basketProduct) => {
     headers: { Authorization: token },
   }
 
-
   const response = await axios.put(`${baseUrl}${basketProduct.id}`, basketProduct, config)
   return response.data
 }

@@ -3,6 +3,10 @@ package com.candywrapper.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import com.candywrapper.model.Role;
 
 import org.springframework.data.annotation.Id;
@@ -19,7 +23,13 @@ public class User {
 
     @Id
     private String id;
+
+    @Size(min=4, max=32)
+    @NotBlank(message="Username is mandatory")
     private String username;
+
+    @Size(min=8, max=32)
+    @NotBlank(message="Password is mandatory")
     private String password;
 
     @Transient

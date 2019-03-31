@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+        <header>
+            <h1>
+                Candy Wrapper
+            </h1>
+        </header>
+        <nav>
+            <button href="/login">Login</button>
+            <button href="/signup">Signup</button>
+        </nav>
+        <div th:switch="${product}">
+            <h2 th:case="null">Product does not exist</h2>
+            <div th:case="*">
+                <h2 th:text="${product.name}"></h2>
+                <p th:text="${product.description}"></p>
+            </div>
+        </div>
+    </body>
+</html>

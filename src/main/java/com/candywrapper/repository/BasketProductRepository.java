@@ -14,6 +14,8 @@ public interface BasketProductRepository extends MongoRepository<BasketProduct, 
     @Override
     List<BasketProduct> findAll();
 
+    BasketProduct findByProduct(Product product);
+
     boolean existsById(String id);
 
     boolean existsByProduct(Product product);

@@ -5,6 +5,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Set;
 
+import javax.validation.constraints.NotBlank;
+
 import com.candywrapper.model.User;
 
 import lombok.Data;
@@ -16,6 +18,8 @@ public class Role {
     
     @Id
     private String id;
+
+    @NotBlank(message="Name is mandatory")
     private String name;
     private Set<User> users;
 

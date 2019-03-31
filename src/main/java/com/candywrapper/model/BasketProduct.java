@@ -1,5 +1,7 @@
 package com.candywrapper.model;
 
+import javax.validation.constraints.NotBlank;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -16,6 +18,8 @@ public class BasketProduct {
 
     @DBRef
     private Product product;
+
+    @NotBlank(message="Amount is mandatory")
     private String amount;
 
     public BasketProduct(String id, Product product, String amount) {

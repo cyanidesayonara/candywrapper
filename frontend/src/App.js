@@ -6,6 +6,7 @@ import roleService from './services/roles.js'
 import basketProductService from './services/basketProducts.js'
 import Header from './components/Header'
 import Nav from './components/Nav'
+import Footer from './components/Footer'
 import UserInfo from './components/UserInfo'
 import Splash from './components/Splash'
 import Products from './components/Products'
@@ -31,6 +32,7 @@ class App extends Component {
       register_password: '',
       register_passwordConfirm: '',
       register_roles: ['USER'],
+      showFooter: true,
     }
   }
 
@@ -71,6 +73,10 @@ class App extends Component {
   initializeGA = () => {
     ReactGA.initialize('UA-120584024-5')
     ReactGA.pageview('/')
+  }
+
+  hideFooter = () => {
+    this.setState({ showFooter: false })
   }
 
   changeView = (view) => () => {
@@ -182,19 +188,32 @@ class App extends Component {
   }
 
   addBasketProduct = (product) => (event) => {
-    const amount = event.target.getAttribute('data-amount')
+    let basketProducts = this.state.basketProducts
+    let amount = event.target.getAttribute('data-amount')
     const parsedAmount = parseInt(amount)
+
     if (!isNaN(parsedAmount)) {
       if (0 < parsedAmount && 100 > parsedAmount) {
+
+        if (basketProducts.length) {
+          const oldBasketProduct = basketProducts.find(bp => bp.product.id === product.id)
+          if (oldBasketProduct) {
+            amount += +oldBasketProduct.amount
+            basketProducts = basketProducts.filter(bp => bp.id !== oldBasketProduct.id)
+          }
+        }
+        
         const basketProduct = {
           product: product,
           amount: amount
         }
+
+        
         basketProductService
           .create(basketProduct)
           .then(createdBasketProduct => {
             this.setState({
-              basketProducts: this.state.basketProducts.concat(createdBasketProduct)
+              basketProducts: basketProducts.concat(createdBasketProduct)
             })
           })
           .catch(error => console.log(error))
@@ -303,8 +322,13 @@ class App extends Component {
             />
           }
         </div>
+        { this.state.showFooter &&
+          <Footer
+            hideFooter={ this.hideFooter }
+          />
+        }
       </div>
-    );
+    )
   }
 }
 

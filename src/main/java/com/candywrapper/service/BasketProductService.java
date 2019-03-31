@@ -8,6 +8,7 @@ import com.candywrapper.model.BasketProduct;
 public interface BasketProductService {
     List<BasketProduct> findAll();
     BasketProduct findById(String id);
+    BasketProduct findByProduct(Product product);
     boolean existsById(String id);
     boolean existsByProduct(Product product);
     BasketProduct save(BasketProduct basketProduct);

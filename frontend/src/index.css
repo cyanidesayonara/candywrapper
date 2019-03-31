@@ -51,18 +51,35 @@ code {
   text-align: center;
   cursor: pointer;
 }
+#footer {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  color: white;
+  background: red;
+  box-shadow: rgba(0, 0, 0, .5) 0 0 5px;
+  z-index: 9000;
+}
 #nav {
   background: #fff;
   box-shadow: rgba(0, 0, 0, .5) 0 0 5px;
 }
-#nav ul {
+#nav ul ,
+#footer ul {
   display: flex;
   list-style: none;
   margin: 0;
   padding: 0;
 }
+
 #nav ul li {
   cursor: pointer;
+}
+#nav ul li,
+#footer ul li {
   text-align: center;
   flex: 1;
   padding: 5px;
