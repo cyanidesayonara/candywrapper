@@ -16,7 +16,7 @@
         </nav>
         <div>
             <h2>Login</h2>
-            <form th:method="post" th:action="@{/accounts/login}">
+            <form th:method="post" th:action="@{/accounts/signup}">
                 <label>
                     Username
                 </label>
@@ -29,6 +29,12 @@
                 <br/>
                 <input type="password" name="password">
                 <br/>
+                <label>
+                    Password (Again)
+                </label>                
+                <br/>
+                <input type="password" name="passwordConfirm">
+                <br/>                
                 <button type="submit">Login</button>
             </form>
         </div>

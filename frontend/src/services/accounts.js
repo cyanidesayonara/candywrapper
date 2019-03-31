@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = 'api/account/'
+const baseUrl = 'api/accounts/'
 
 const login = async (user) => {
   const response = await axios.post(`${baseUrl}login`, user)

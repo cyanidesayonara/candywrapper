@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @Controller
-@RequestMapping("account/")
+@RequestMapping("/accounts")
 public class AccountController {
 
     public static final Logger logger = LoggerFactory.getLogger(UserAPIController.class);
@@ -18,8 +18,8 @@ public class AccountController {
         return "login";
     }
 
-    @GetMapping("/register")
-    public String register() {
-        return "register";
+    @GetMapping("/signup")
+    public String signup() {
+        return "signup";
     }
 }

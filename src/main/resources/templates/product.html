@@ -5,12 +5,14 @@
     <body>
         <header>
             <h1>
-                Candy Wrapper
+                <a th:href="@{/products/}">
+                    Candy Wrapper
+                </a>
             </h1>
         </header>
         <nav>
-            <button href="/login">Login</button>
-            <button href="/signup">Signup</button>
+            <a th:href="@{/accounts/login}">Login</a>
+            <a th:href="@{/accounts/signup}">Signup</a>
         </nav>
         <div th:switch="${product}">
             <h2 th:case="null">Product does not exist</h2>
