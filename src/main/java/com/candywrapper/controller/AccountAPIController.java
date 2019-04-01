@@ -36,7 +36,7 @@ public class AccountAPIController {
     private LoginValidator loginValidator;
 
     @Autowired
-    private RegisterValidator registerValidator;
+    private RegisterValidator signupValidator;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Valid User user, BindingResult bindingResult) {
@@ -51,11 +51,11 @@ public class AccountAPIController {
         return new ResponseEntity<UserDetails>(userDetails, HttpStatus.OK);
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody @Valid User user, BindingResult bindingResult) {
-        logger.info("Registering User : {}", user);
+    @PostMapping("/signup")
+    public ResponseEntity<?> signup(@RequestBody @Valid User user, BindingResult bindingResult) {
+        logger.info("Signing up User : {}", user);
         
-        registerValidator.validate(user, bindingResult);
+        signupValidator.validate(user, bindingResult);
         
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);

@@ -11,7 +11,7 @@ import UserInfo from './components/UserInfo'
 import Splash from './components/Splash'
 import Products from './components/Products'
 import Login from './components/Login'
-import Register from './components/Register'
+import Signup from './components/Signup'
 import About from './components/About'
 import BasketProducts from './components/BasketProducts.js'
 import ReactGA from 'react-ga'
@@ -28,10 +28,10 @@ class App extends Component {
       addnew_description: '',
       login_username: '',
       login_password: '',
-      register_username: '',
-      register_password: '',
-      register_passwordConfirm: '',
-      register_roles: ['USER'],
+      signup_username: '',
+      signup_password: '',
+      signup_passwordConfirm: '',
+      signup_roles: ['USER'],
       showFooter: true,
     }
   }
@@ -126,20 +126,20 @@ class App extends Component {
     }
   }
 
-  register = () => async (event) => {
+  signup = () => async (event) => {
     event.preventDefault()
     const roles = await roleService.getAll(roleService.getAll)
     let selectedRoles = []
     for (let i = 0; i > roles; i++) {
-      if (this.state.register_roles.includes(roles[i].name)) {
+      if (this.state.signup_roles.includes(roles[i].name)) {
         selectedRoles.push(roles[i])
       }
     }
     try {
-      const user = await accountService.register({
-        username: this.state.register_username,
-        password: this.state.register_password,
-        passwordConfirm: this.state.register_passwordConfirm,
+      const user = await accountService.signup({
+        username: this.state.signup_username,
+        password: this.state.signup_password,
+        passwordConfirm: this.state.signup_passwordConfirm,
         roles: selectedRoles,
       })
 
@@ -149,14 +149,14 @@ class App extends Component {
       this.setState({
         user: user,
         view: 'browse',
-        register_username: '',
-        register_password: '',
-        register_passwordConfirm: '',
+        signup_username: '',
+        signup_password: '',
+        signup_passwordConfirm: '',
       })
     } catch (e) {
       this.setState({ 
-        register_password: '',
-        register_passwordConfirm: '',
+        signup_password: '',
+        signup_passwordConfirm: '',
       })
     }
   }
@@ -305,13 +305,13 @@ class App extends Component {
               password={ this.state.login_password }
             />
           }
-          { this.state.view === 'register' &&
-            <Register
-              register={ this.register }
-              username={ this.state.register_username }
-              password={ this.state.register_password }
-              passwordConfirm={ this.state.register_passwordConfirm }
-              roles={ this.state.register_roles }
+          { this.state.view === 'signup' &&
+            <Signup
+              signup={ this.signup }
+              username={ this.state.signup_username }
+              password={ this.state.signup_password }
+              passwordConfirm={ this.state.signup_passwordConfirm }
+              roles={ this.state.signup_roles }
               handleInputChange={ this.handleInputChange }          
             />
           }

@@ -18,8 +18,8 @@ const Nav = ({ user, changeView, logout }) => {
         }
         {
           user === null &&
-          <li onClick={ changeView('register') }>
-            Register
+          <li onClick={ changeView('signup') }>
+            Signup
           </li>
         }
         {

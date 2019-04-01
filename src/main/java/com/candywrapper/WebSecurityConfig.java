@@ -52,6 +52,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .anyRequest().permitAll()
             .and()
             .logout()
+            .logoutUrl("/accounts/logout")
+            .logoutSuccessUrl("/products/")
             .and()
             .exceptionHandling().accessDeniedPage("/login");
 
@@ -62,5 +64,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
-    }    
+    }
 }
