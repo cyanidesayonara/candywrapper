@@ -54,9 +54,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .logoutSuccessUrl("/products/")
             .and()
             .exceptionHandling().accessDeniedPage("/login");
-
-        // Optional, if you want to test the API from a browser
-        // http.httpBasic();
     }
 
     @Autowired

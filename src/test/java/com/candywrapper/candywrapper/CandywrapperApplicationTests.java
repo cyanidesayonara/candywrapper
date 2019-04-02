@@ -22,8 +22,12 @@ public class CandywrapperApplicationTests {
 	private AccountController accountController;	
 
 	@Test
-	public void contextLoads() throws Exception {
+	public void productContextLoads() throws Exception {
 		assertThat(productController).isNotNull();
-		assertThat(accountController).isNotNull();
 	}
+
+	@Test
+	public void accountContextLoads() throws Exception {
+		assertThat(accountController).isNotNull();
+	}	
 }
