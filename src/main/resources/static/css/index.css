@@ -1,0 +1,137 @@
+@import url("https://fonts.googleapis.com/css?family=Righteous");
+@import url("https://fonts.googleapis.com/css?family=Ubuntu");
+
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+  "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+  sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #dfdfdf;
+  font-family: 'Ubuntu', cursive;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+#container {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 600px;
+  min-height: 100vh;
+  padding: 60px 0 20px;
+}
+
+#header {
+  font-family: 'Righteous', cursive;
+  position: fixed;
+  height: 60px;
+  width: 100%;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  background: red;
+  box-shadow: rgba(0,0,0,.5) 0 0 5px;
+  z-index: 9001;
+}
+#header h1 {
+  margin: 10px 0;
+  text-align: center;
+  cursor: pointer;
+}
+#footer {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  color: white;
+  background: red;
+  box-shadow: rgba(0, 0, 0, .5) 0 0 5px;
+  z-index: 9000;
+}
+#nav {
+  background: #fff;
+  box-shadow: rgba(0, 0, 0, .5) 0 0 5px;
+}
+#nav ul ,
+#footer ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#nav ul li {
+  cursor: pointer;
+}
+#nav ul li,
+#footer ul li {
+  text-align: center;
+  flex: 1;
+  padding: 5px;
+}
+#nav ul li:hover {
+  background: black;
+  color: red;
+}
+#userinfo {
+  padding: 10px;
+}
+#userinfo p {
+  margin: 0;
+}
+#main {
+  margin: 20px;
+  padding: 25px;
+  box-shadow: rgba(0,0,0,.5) 0 0 5px;
+}
+
+#login {
+  text-align: center;
+}
+
+#signup {
+  text-align: center;
+}
+
+#new {
+  text-align: center;
+}
+
+.product {
+  padding: 10px;
+}
+
+#products .product:hover {
+  background: rgba(0,0,0,.2);
+}
+
+.product img {
+  float: left;
+  min-width: 100px;
+  max-width: 25%;
+  height: auto;
+  margin-right: 5px;
+}
+
+.product h1 {
+  margin: 5px 0;
+}
+
+.product form {
+  display: inline-block;
+}

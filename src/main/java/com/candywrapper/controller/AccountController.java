@@ -62,7 +62,6 @@ public class AccountController {
             model.addAttribute("view", "login");
             return "base";
         }
-        
         securityService.autologin(user.getUsername(), user.getPassword());
         return "redirect:/products/";
     }

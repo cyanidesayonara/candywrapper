@@ -3,6 +3,9 @@ package com.candywrapper.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -50,16 +53,17 @@ public class ProductController {
     }
 
     @PostMapping("/")
-    public String postProduct(@Valid @ModelAttribute("product") Product product, BindingResult bindingResult, Model model) {
-        logger.info("Creating Product : {}", product);
-
-        if (bindingResult.hasErrors()) {
-            // error message
-            model.addAttribute("view", "new");
-            return "base";
+    public String postProduct(@Valid @ModelAttribute("product") Product product, BindingResult bindingResult, Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        if (userDetails != null && userDetails.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"))) {
+            logger.info("Creating Product : {}", product);
+            if (bindingResult.hasErrors()) {
+                // error message
+                model.addAttribute("view", "new");
+                return "base";
+            }
+    
+            productService.save(product);
         }
-
-        productService.save(product);
         return "redirect:/products/";
     }    
 
@@ -71,26 +75,30 @@ public class ProductController {
     }
 
     @PutMapping("/{id}/")
-    public String putProduct(@Valid @ModelAttribute("product") Product product, BindingResult bindingResult, Model model) {
-        logger.info("Updating Product : {}", product);
-
-        if (bindingResult.hasErrors()) {
-            // error message
-            model.addAttribute("view", "edit");
-            return "base";
+    public String putProduct(@Valid @ModelAttribute("product") Product product, BindingResult bindingResult, Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        if (userDetails != null && userDetails.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"))) {
+            logger.info("Updating Product : {}", product);
+    
+            if (bindingResult.hasErrors()) {
+                // error message
+                model.addAttribute("view", "edit");
+                return "base";
+            }
+    
+            product.setId(product.getId());
+            product.setName(product.getName());
+            product.setDescription(product.getDescription());
+    
+            productService.update(product);
         }
-
-        product.setId(product.getId());
-        product.setName(product.getName());
-        product.setDescription(product.getDescription());
-
-        productService.update(product);
         return "redirect:/products/";
     }    
 
     @DeleteMapping("/{id}/")
-    public String deleteProduct(@PathVariable("id") String id, Model model) {
-        productService.deleteById(id);
+    public String deleteProduct(@PathVariable("id") String id, Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        if (userDetails != null && userDetails.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"))) {
+            productService.deleteById(id);
+        }
         return "redirect:/products/";
     }
 }

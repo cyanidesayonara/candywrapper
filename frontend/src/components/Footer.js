@@ -10,7 +10,7 @@ const Footer = ({ hideFooter }) => {
       <ul>
         <li>
           <a href='/products/'>
-            Go to crappy site
+            Go to thymeleaf site
           </a>
           <button style={ buttonStyle } onClick={ hideFooter }>
             X

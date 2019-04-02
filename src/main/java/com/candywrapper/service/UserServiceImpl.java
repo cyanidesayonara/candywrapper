@@ -3,7 +3,6 @@ package com.candywrapper.service;
 import java.util.List;
 
 import com.candywrapper.model.User;
-import com.candywrapper.repository.RoleRepository;
 import com.candywrapper.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +20,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
     
-    @Autowired
-    private RoleRepository roleRepository;
-
     @Override
     public List<User> findAll() {
         return userRepository.findAll();
@@ -52,7 +48,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User save(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setRoles(new HashSet<>(roleRepository.findAll()));        
+        user.setRole(user.getRole());        
         return userRepository.save(user);
     }
 

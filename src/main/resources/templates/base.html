@@ -2,154 +2,169 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
         <title>Candy Wrapper</title>
+        <link href="../static/css/index.css" th:href="@{/css/index.css}" rel="stylesheet" />
     </head>
     <body>
-        <header>
-            <h1>
-                <a th:href="@{/products/}">
-                    Candy Wrapper
-                </a>
-            </h1>
-        </header>
-        <nav sec:authorize="isAnonymous()">
-            <a th:href="@{/accounts/login}">Login</a>
-            <a th:href="@{/accounts/signup}">Signup</a>
-        </nav>
-        <nav sec:authorize="isAuthenticated()">
-            <p>Logged in as <strong th:text="${#authentication.getPrincipal().getUsername()}"></strong></p>
-            <a th:href="@{/accounts/logout}">Logout</a>
-        </nav>
-        <div th:if="${view} eq 'products'" th:switch="${products}">
-            <h2 th:case="null">No products</h2>
-            <form sec:authorize="hasAuthority('ADMIN')" th:method="get" th:action="@{/products/new}">
-                <input type="submit" value="Add new" />
-            </form>
-            <div th:case="*">
-                <h2>Products</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th colspan="1"></th>
-                            <th>Name</th>
-                            <th>Description</th>
-                            <th sec:authorize="hasAuthority('ADMIN')" colspan="2">Edit</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="product : ${products}">
-                            <td>
+        <div id="root">
+            <div id="container">
+                <header id="header">
+                    <h1>
+                        <a th:href="@{/products/}">
+                            Candy Wrapper
+                        </a>
+                    </h1>
+                </header>
+                <nav id="nav" sec:authorize="isAnonymous()">
+                    <ul>
+                        <li>
+                            <a th:href="@{/accounts/login}">Login</a>
+                        </li>
+                        <li>
+                            <a th:href="@{/accounts/signup}">Signup</a>
+                        </li>
+                    </ul>
+                </nav>
+                <nav id="nav" sec:authorize="isAuthenticated()">
+                    <ul>
+                        <li>
+                            Logged in as <strong th:text="${#authentication.getPrincipal().getUsername()}"></strong>
+                        </li>
+                        <li>
+                            <a th:href="@{/accounts/logout}">Logout</a>
+                        </li>
+                    </ul>
+                </nav>
+                <div id="main">
+                    <div id="products" th:if="${view} eq 'products'" th:switch="${products}">
+                        <h2 th:case="null">No products</h2>
+                        <form sec:authorize="hasAuthority('ADMIN')" th:method="get" th:action="@{/products/new}">
+                            <input type="submit" value="Add new" />
+                        </form>
+                        <div th:case="*">
+                            <h2>Products</h2>
+                            <div class="product" th:each="product : ${products}">
                                 <a th:href="@{/products/{id}/(id=${product.id})}">
                                     <img height="100" width="100" th:src="@{/product.png}" alt="Product" />
                                 </a>
-                            </td>
-                            <td><a th:text="${product.name}" th:href="@{/products/{id}/(id=${product.id})}"></a></td>
-                            <td th:text="${product.description}"></td>
-                            <td sec:authorize="hasAuthority('ADMIN')">
-                                <form th:method="get" th:action="@{/products/{id}/edit(id=${product.id})}">
+                                <h3>
+                                    <a th:text="${product.name}" th:href="@{/products/{id}/(id=${product.id})}"></a>
+                                </h3>
+                                <p th:text="${product.description}"></p>
+                                <form sec:authorize="hasAuthority('ADMIN')" th:method="get" th:action="@{/products/{id}/edit(id=${product.id})}">
                                     <input type="submit" value="Edit" />
                                 </form>
-                            </td>    
-                            <td sec:authorize="hasAuthority('ADMIN')">
-                                <form th:method="delete" th:action="@{/products/{id}/(id=${product.id})}">
+                                <form sec:authorize="hasAuthority('ADMIN')" th:method="delete" th:action="@{/products/{id}/(id=${product.id})}">
                                     <input type="submit" value="Delete" />
                                 </form>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product" th:if="${view} eq 'product'">
+                        <img height="100" width="100" th:src="@{/product.png}" alt="Product" />
+                        <h1 th:text="${product.name}"></h1>
+                        <p th:text="${product.description}"></p>
+                        <form sec:authorize="hasAuthority('ADMIgetN')" th:method="delete" th:action="@{/products/{id}/(id=${product.id})}">
+                            <input type="submit" value="Delete" />
+                        </form>
+                        <form sec:authorize="hasAuthority('ADMIN')" th:method="get" th:action="@{/products/{id}/edit(id=${product.id})}">
+                            <input type="submit" value="Edit" />
+                        </form>            
+                        <form sec:authorize="hasAuthority('ADMIN')" th:method="delete" th:action="@{/products/{id}/(id=${product.id})}">
+                            <input type="submit" value="Delete" />
+                        </form>
+                    </div>
+                    <div th:if="${view} eq 'new'">
+                        <h2>Add new product</h2>
+                        <form th:method="post" th:action="@{/products/}">
+                            <label for="name">
+                                Name
+                            </label>
+                            <br/>
+                            <input id="name" name="name" />
+                            <br/>
+                            <label for="description">
+                                Description
+                            </label>
+                            <br/>
+                            <input id="description" name="description" />
+                            <br/>
+                            <button type="submit">Save</button>
+                        </form>
+                    </div>
+                    <div class="product" th:if="${view} eq 'edit'">
+                        <img height="100" width="100" th:src="@{/product.png}" alt="Product" />
+                        <form th:method="put" th:action="@{/products/{id}/(id=${product.id})}">
+                            <label for="name">
+                                Name
+                            </label>
+                            <br/>
+                            <input th:value="${product.name}" id="name" name="name" />
+                            <br/>
+                            <label for="description">
+                                Description
+                            </label>
+                            <br/>
+                            <input th:value="${product.description}" id="description" name="description" />
+                            <br/>
+                            <button type="submit">Save</button>
+                        </form>
+                    </div>                
+                    <div id="login" th:if="${view} eq 'login'" >
+                        <h2>Login</h2>
+                        <form th:method="post" th:action="@{/accounts/login}">
+                            <label for="username">
+                                Username
+                            </label>
+                            <br/>
+                            <input type="text" name="username" id="username">
+                            <br/>
+                            <label for="password">
+                                Password
+                            </label>                
+                            <br/>
+                            <input type="password" name="password" id="password">
+                            <br/>
+                            <button type="submit">Login</button>
+                        </form>
+                    </div>
+                    <div id="signup" th:if="${view} eq 'signup'" >
+                        <h2>Signup</h2>
+                        <form th:method="post" th:action="@{/accounts/signup}">
+                            <label for="username">
+                                Username
+                            </label>
+                            <br/>
+                            <input type="text" name="username" id="username">
+                            <br/>
+                            <label for="password">
+                                Password
+                            </label>
+                            <br/>
+                            <input type="password" name="password" id="password">
+                            <br/>
+                            <label id="passwordConfirm">
+                                Password (Again)
+                            </label>
+                            <br/>
+                            <input type="password" name="passwordConfirm" id="passwordConfirm">
+                            <br />
+                            Role:
+                            <br />
+                            <label>
+                                User
+                                <input type="radio" id="role" name="role" value="USER" checked />
+                            </label>
+                            <br />
+                            <label>
+                                Admin
+                                <input type="radio" id="role" name="role" value="ADMIN" />
+                            </label>
+                            <br />
+                            <button type="submit">Login</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
-        <div th:if="${view} eq 'product'">
-            <img height="100" width="100" th:src="@{/product.png}" alt="Product" />
-            <h2 th:text="${product.name}"></h2>
-            <p th:text="${product.description}"></p>
-            <form sec:authorize="hasAuthority('ADMIgetN')" th:method="delete" th:action="@{/products/{id}/(id=${product.id})}">
-                <input type="submit" value="Delete" />
-            </form>
-            <form th:method="get" th:action="@{/products/{id}/edit(id=${product.id})}">
-                <input type="submit" value="Edit" />
-            </form>            
-            <form th:method="delete" th:action="@{/products/{id}/(id=${product.id})}">
-                <input type="submit" value="Delete" />
-            </form>
-        </div>
-        <div th:if="${view} eq 'new'">
-            <h2>Add new product</h2>
-            <form th:method="post" th:action="@{/products/}">
-                <label for="name">
-                    Name
-                </label>
-                <br/>
-                <input id="name" name="name" />
-                <br/>
-                <label for="description">
-                    Description
-                </label>
-                <br/>
-                <input id="description" name="description" />
-                <br/>
-                <button type="submit">Save</button>
-            </form>
-        </div>
-        <div th:if="${view} eq 'edit'">
-            <img height="100" width="100" th:src="@{/product.png}" alt="Product" />
-            <form th:method="put" th:action="@{/products/{id}/(id=${product.id})}">
-                <label for="name">
-                    Name
-                </label>
-                <br/>
-                <input th:value="${product.name}" id="name" name="name" />
-                <br/>
-                <label for="description">
-                    Description
-                </label>
-                <br/>
-                <input th:value="${product.description}" id="description" name="description" />
-                <br/>
-                <button type="submit">Save</button>
-            </form>
-        </div>                
-        <div th:if="${view} eq 'login'" >
-            <h2>Login</h2>
-            <form th:method="post" th:action="@{/accounts/login}">
-                <label for="username">
-                    Username
-                </label>
-                <br/>
-                <input type="text" name="username" id="username">
-                <br/>
-                <label for="password">
-                    Password
-                </label>                
-                <br/>
-                <input type="password" name="password" id="password">
-                <br/>
-                <button type="submit">Login</button>
-            </form>
-        </div>
-        <div th:if="${view} eq 'signup'" >
-            <h2>Signup</h2>
-            <form th:method="post" th:action="@{/accounts/signup}">
-                <label for="username">
-                    Username
-                </label>
-                <br/>
-                <input type="text" name="username" id="username">
-                <br/>
-                <label for="password">
-                    Password
-                </label>
-                <br/>
-                <input type="password" name="password" id="password">
-                <br/>
-                <label id="passwordConfirm">
-                    Password (Again)
-                </label>                
-                <br/>
-                <input type="password" name="passwordConfirm" id="passwordConfirm">
-                <br/>                
-                <button type="submit">Login</button>
-            </form>
-        </div>        
     </body>
 </html>

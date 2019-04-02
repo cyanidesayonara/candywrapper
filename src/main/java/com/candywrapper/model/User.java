@@ -1,15 +1,11 @@
 package com.candywrapper.model;
 
-import java.util.Set;
-
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import com.candywrapper.model.Role;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Data;
@@ -33,8 +29,7 @@ public class User {
     @Transient
     private String passwordConfirm;
     
-    @DBRef
-    private Set<Role> roles;
+    private String role;
 
     public User(String id, String username, String password, String passwordConfirm) {
         this.id = id;
